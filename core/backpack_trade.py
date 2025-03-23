@@ -78,6 +78,9 @@ class BackpackTrade(Backpack):
         },
         "SHFL": {
             'decimal': 2
+        }        },
+        "ETH": {
+            'decimal': 2
         }
     }
 
