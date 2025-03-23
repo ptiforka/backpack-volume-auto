@@ -80,7 +80,7 @@ class BackpackTrade(Backpack):
             'decimal': 2
         }        },
         "ETH": {
-            'decimal': 2
+            'decimal': 4
         }
     }
 
