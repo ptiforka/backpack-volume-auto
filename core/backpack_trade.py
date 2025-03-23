@@ -100,16 +100,20 @@ class BackpackTrade(Backpack):
         self.min_balance_usd = 5
 
     async def start_trading(self, pairs: list[str]):
-        try:
-            while True:
+        while True:
+            try:
                 pair = random.choice(pairs)
                 if await self.trade_worker(pair):
                     break
-        except TradeException as e:
-            logger.warning(e)
-        except Exception as e:
-            logger.error(f"{e} / Check logs in logs/out.log")
-            logger.debug(f"{e} {traceback.format_exc()}")
+
+            except (FokOrderException, TradeException) as e:
+                logger.error(f"Exception encountered: {e}. Calling sell_all and then retrying from start.")
+                await self.sell_all()
+                await sleep(1)
+
+            except Exception as e:
+                logger.error(f"Unknown exception encountered: {e}. Retrying from start.")
+                await sleep(1)
 
         logger.info(f"Finished! Traded volume ~ {self.current_volume:.2f}$")
 
