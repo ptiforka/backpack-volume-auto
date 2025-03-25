@@ -301,6 +301,7 @@ class BackpackTrade(Backpack):
         balances = await self.get_balance()
 
         for symbol in balances.keys():
+            if symbol == "POINTS": continue
             if symbol.startswith('USDC'):
                 continue
             # if symbol != 'PYTH':
